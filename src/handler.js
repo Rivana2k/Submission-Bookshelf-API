@@ -75,11 +75,65 @@ const addBooksHandler = (request, h) => {
 const getAllBooksHandler = () => ({
     status: 'success',
     data: {
-        books,
+        books:[]
     },
 });
+const getBooksByIdHandler = (request, h) => {
+    const { id } = request.params;
+
+    const books = books.filter((n) => n.id === id)[0];
+    if(books !== undefined) {
+        return{
+            status: 'success',
+            data:{
+                books,
+            },
+        };
+    }
+
+    const response = h.response({
+        status: 'fail',
+        message: 'Buku tidak ditemukan',
+    });
+    response.code(404);
+    return response;
+};
+
+const editBookByIdHandler = (request, h) => {
+    const { id } = request.params;
+
+    const {
+        name,
+        year,
+        author,
+        summary,
+        publisher,
+        pageCount,
+        readPage,
+        reading,
+    } = request.payload;
+
+    const updateAt = new Date().toISOString();
+
+    const index = books.findIndex((books) => books.id === id);
+
+    if(index !== -1) {
+        books[index] = {
+         ...books[index],
+        name,
+        year,
+        author,
+        summary,
+        publisher,
+        pageCount,
+        readPage,
+        reading,
+        }
+    }
+};
 
 module.exports = {
     addBooksHandler,
     getAllBooksHandler,
+    getBooksByIdHandler,
 };
