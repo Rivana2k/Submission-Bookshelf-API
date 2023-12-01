@@ -58,7 +58,7 @@ const addBooksHandler = (request, h) => {
       status: 'success',
       message: 'Buku berhasil ditambahkan',
       data: {
-        booksId: id,
+        bookId: id,
       },
     });
     response.code(201);
@@ -82,7 +82,7 @@ const getBooksByIdHandler = (request, h) => {
   const { booksId } = request.params;
 
   const book = books.filter((b) => b.id === booksId)[0];
-  if (books !== undefined) {    
+  if (books !== undefined) {
     return {
       status: 'success',
       data: {
@@ -100,7 +100,7 @@ const getBooksByIdHandler = (request, h) => {
 };
 
 const editBookByIdHandler = (request, h) => {
-  const { booksId } = request.params;
+  const { bookId } = request.params;
 
   const {
     name,
@@ -115,7 +115,7 @@ const editBookByIdHandler = (request, h) => {
 
   const updateAt = new Date().toISOString();
 
-  const index = books.findIndex((book) => book.id === id);
+  const index = books.findIndex((book) => book.id === bookId);
 
   if (index !== -1) {
     books[index] = {
