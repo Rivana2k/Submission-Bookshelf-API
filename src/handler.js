@@ -81,7 +81,7 @@ const getAllBooksHandler = () => ({
 const getBooksByIdHandler = (request, h) => {
   const { booksId } = request.params;
 
-  const book = books.filter((b) => b.id === bookId)[0];
+  const book = books.filter((b) => b.id === booksId)[0];
   if (books !== undefined) {    
     return {
       status: 'success',
@@ -100,7 +100,7 @@ const getBooksByIdHandler = (request, h) => {
 };
 
 const editBookByIdHandler = (request, h) => {
-  const { booksid } = request.params;
+  const { booksId } = request.params;
 
   const {
     name,
