@@ -52,7 +52,7 @@ const addBooksHandler = (request, h) => {
 
   books.push(newBooks);
 
-  const isSuccess = books.filter((books) => books.id === id).length > 0;
+  const isSuccess = books.filter((book) => book.id === id).length > 0;
   if (isSuccess) {
     const response = h.response({
       status: 'success',
@@ -81,7 +81,7 @@ const getAllBooksHandler = () => ({
 const getBooksByIdHandler = (request, h) => {
   const { id } = request.params;
 
-  const books = books.filter((n) => n.id === id)[0];
+  const book = books.filter((b) => b.id === id)[0];
   if (books !== undefined) {
     return {
       status: 'success',
@@ -115,7 +115,7 @@ const editBookByIdHandler = (request, h) => {
 
   const updateAt = new Date().toISOString();
 
-  const index = books.findIndex((books) => books.id === id);
+  const index = books.findIndex((book) => book.id === id);
 
   if (index !== -1) {
     books[index] = {
@@ -170,7 +170,7 @@ const editBookByIdHandler = (request, h) => {
 const deleteBooksByIdHandler = (request, h) => {
   const { id } = request.params;
 
-  const index = books.findIndex((books) => books.id === id);
+  const index = books.findIndex((book) => book.id === id);
 
   if (index !== 1) {
     books.splice(index, 1);
