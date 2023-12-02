@@ -95,24 +95,24 @@ const getAllBooksHandler = (request, h) => {
     );
   }
 
+  const hasilMap = FilteredBook.map(book => ({
+    id: book.id,
+    name: book.name,
+    publisher: book.publisher,
+  }));
   const response = h.response({
     status: 'success',
-    data: {
-      books: FilteredBook.map((book) => ({
-        id: book.id,
-        name: book.name,
-        publisher: book.publisher,
-      })),
-    },
+    data: hasilMap,
   });
   response.code(200);
   return response;
 };
 const getBooksByIdHandler = (request, h) => {
-  const { booksId } = request.params;
+  const { bookId } = request.params;
 
-  const book = books.filter((b) => b.id === booksId)[0];
-  if (books !== undefined) {
+  const book = books.filter((b) => b.id === bookId)[0];
+
+  if (book !== undefined) {
     return {
       status: 'success',
       data: {
@@ -171,6 +171,7 @@ const editBookByIdHandler = (request, h) => {
     response.code(404);
     return response;
   }
+
   const index = books.findIndex((book) => book.id === bookId);
 
   if(index !== -1) {
@@ -189,14 +190,14 @@ const editBookByIdHandler = (request, h) => {
     };
     const response = h.response({
       status: 'success',
-      message: 'Buku berhasil diperbarui'
+      message: 'Buku berhasil diperbarui',
     });
     response.code(200);
     return response;
   }
   const response = h.response({
     status: 'fail',
-    message: 'Gagal memperbarui buku. Id tidak ditemukan'
+    message: 'Gagal memperbarui buku. Id tidak ditemukan',
   });
   response.code(404);
   return response;
