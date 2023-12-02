@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const { nanoid } = require('nanoid');
 const books = require('./books');
 
@@ -72,12 +73,39 @@ const addBooksHandler = (request, h) => {
   return response;
 };
 
-const getAllBooksHandler = () => ({
-  status: 'success',
-  data: {
-    books: [],
-  },
-});
+const getAllBooksHandler = (request, h) => {
+  const { name, reading, finished } = request.query;
+
+  let filteredBooks = books;
+
+  if (name !== undefined) {
+    filteredBooks = filteredBooks.filter((book) => book.name.toLowerCase().includes(name.toLowerCase()));
+  }
+
+  if (reading !== undefined) {
+    filteredBooks = filteredBooks.filter(
+      (book) => book.finished === !Number(reading),
+    );
+  }
+
+  if (finished !== undefined) {
+    filteredBooks = filteredBooks.filter(
+      (book) => book.finished === !Number(finished),
+    );
+  }
+
+  const hasilMap = filteredBooks.map((book) => ({
+    id: book.id,
+    name: book.name,
+    publisher: book.publisher,
+  }));
+  const response = h.response({
+    status: 'success',
+    data: hasilMap,
+  });
+  response.code(200);
+  return response;
+};
 const getBooksByIdHandler = (request, h) => {
   const { booksId } = request.params;
 
@@ -86,7 +114,7 @@ const getBooksByIdHandler = (request, h) => {
     return {
       status: 'success',
       data: {
-        books,
+        book,
       },
     };
   }
