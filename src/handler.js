@@ -109,6 +109,7 @@ const getAllBooksHandler = (request, h) => {
   response.code(200);
   return response;
 };
+
 const getBooksByIdHandler = (request, h) => {
   const { bookId } = request.params;
 
@@ -145,7 +146,7 @@ const editBookByIdHandler = (request, h) => {
     reading,
   } = request.payload;
 
-  const updateAt = new Date().toISOString();
+  const updatedAt = new Date().toISOString();
 
   if (!name) {
     const response = h.response({
@@ -159,24 +160,15 @@ const editBookByIdHandler = (request, h) => {
   if (readPage > pageCount) {
     const response = h.response({
       status: 'fail',
-      message: 'Gagal memperbarui buku, readPage tidak boleh lebih besar dari pageCount',
+      message: 'Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount',
     });
     response.code(400);
     return response;
   }
 
-  if (!id) {
-    const response = h.response({
-      status: 'fail',
-      message: 'Gagal memperbarui buku, Id tidak ditemukan',
-    });
-    response.code(404);
-    return response;
-  }
-
   const index = books.findIndex((book) => book.id === bookId);
 
-  if(index !== -1) {
+  if (index !== -1) {
     books[index] = {
       ...books[index],
       name,
@@ -188,7 +180,7 @@ const editBookByIdHandler = (request, h) => {
       readPage,
       finished: pageCount === readPage,
       reading,
-      updateAt,
+      updatedAt,
     };
     const response = h.response({
       status: 'success',
@@ -210,7 +202,7 @@ const deleteBooksByIdHandler = (request, h) => {
 
   const index = books.findIndex((book) => book.id === bookId);
 
-  if (index !== 1) {
+  if (index !== -1) {
     books.splice(index, 1);
     const response = h.response({
       status: 'success',
@@ -219,10 +211,9 @@ const deleteBooksByIdHandler = (request, h) => {
     response.code(200);
     return response;
   }
-
   const response = h.response({
     status: 'fail',
-    message: 'Buku gagal dihapus, Id tidak ditemukan',
+    message: 'Buku gagal dihapus. Id tidak ditemukan',
   });
   response.code(404);
   return response;
