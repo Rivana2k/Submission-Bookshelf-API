@@ -33,7 +33,7 @@ const addBooksHandler = (request, h) => {
 
   const id = nanoid(16);
   const insertedAt = new Date().toISOString();
-  const updateAt = insertedAt;
+  const updatedAt = insertedAt;
   const finished = pageCount === readPage;
 
   const newBooks = {
@@ -48,7 +48,7 @@ const addBooksHandler = (request, h) => {
     finished,
     reading,
     insertedAt,
-    updateAt,
+    updatedAt,
   };
 
   books.push(newBooks);
@@ -102,7 +102,9 @@ const getAllBooksHandler = (request, h) => {
   }));
   const response = h.response({
     status: 'success',
-    data: hasilMap,
+    data: {
+      books: hasilMap,
+    },
   });
   response.code(200);
   return response;
