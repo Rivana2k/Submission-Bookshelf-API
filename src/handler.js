@@ -85,13 +85,12 @@ const getAllBooksHandler = (request, h) => {
 
   if (reading !== undefined) {
     FilteredBook = FilteredBook.filter(
-      (book) => book.finished === !!Number(reading),
+      (book) => book.reading === (reading === '1'),
     );
   }
-
   if (finished !== undefined) {
     FilteredBook = FilteredBook.filter(
-      (book) => book.finished === !!Number(finished),
+      (book) => book.finished === (finished === '1'),
     );
   }
 
